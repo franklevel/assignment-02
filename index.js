@@ -8,7 +8,7 @@
 
 const crypto = require("crypto");
 const app = require("./app");
-const config = require("./config");
+const config = require("./lib/config");
 const _data = require("./lib/data");
 const Menu = require("./models/Menu");
 

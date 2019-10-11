@@ -16,7 +16,11 @@ User.logout = (data, callback) => {
 };
 
 User.create = (data, callback) => {
-  callback(200, { message: "User was created", status: "OK" });
+  callback({ data: data, message: "User was created", status: "OK" });
+};
+
+User.show = (id, callback) => {
+  callback({ id: id, message: "Users was shown", status: "OK" });
 };
 
 module.exports = User;

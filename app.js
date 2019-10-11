@@ -1,7 +1,8 @@
 const http = require("http");
 const url = require("url");
+const { parse } = require("querystring");
 const StringDecoder = require("string_decoder").StringDecoder;
-const router = require("./router");
+const router = require("./lib/router");
 const Generic = {};
 
 const app = http.createServer((req, res) => {
@@ -10,7 +11,7 @@ const app = http.createServer((req, res) => {
   // Get the current path
   var path = parsedUrl.pathname;
   // Trim de path
-  var trimmedPath = path.replace(/^\/+|\/+$/g, "");
+  var route = path.replace(/^\/+|\/+$/g, "");
   // Get the query string a an object
   var queryString = parsedUrl.query;
   // Get the HTTP method
@@ -27,22 +28,23 @@ const app = http.createServer((req, res) => {
     buffer += decoder.end();
 
     /* const chosenHandler =
-      typeof router[trimmedPath] !== "undefined"
-        ? router[trimmedPath]
+      typeof router[route] !== "undefined"
+        ? router[route]
         : handlers.notFound; */
 
     // Construct the data object to send to the handler
     const data = {
-      trimmedPath: trimmedPath,
+      route: route,
       queryString: queryString,
       method: method,
       headers: headers,
       payload: buffer
     };
-
+    // Parse and format the payload
+    const parsedBuffer = JSON.stringify(parse(buffer.toString()));
     const chosenRoute =
-      typeof router.dispatch(trimmedPath, method, buffer) !== "undefined"
-        ? router.dispatch(trimmedPath, method, buffer)
+      typeof router.dispatch(route, method, parsedBuffer) !== "undefined"
+        ? router.dispatch(route, method, parsedBuffer)
         : Generic.notFound;
 
     chosenRoute(data, (statusCode, payload) => {
@@ -59,7 +61,7 @@ const app = http.createServer((req, res) => {
       // Send the response
       res.end(payloadString);
       // Log the request path
-      console.log("-", method.toUpperCase(), statusCode, payloadString);
+      console.log("=>", method.toUpperCase(), statusCode, payloadString);
     });
   });
 });
