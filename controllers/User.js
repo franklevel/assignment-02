@@ -1,26 +1,37 @@
 const crypto = require("crypto");
-const User = {};
+const User = require("../models/User");
+const UserController = {};
 
-// login handler
-User.login = (data, callback) => {
-  callback(200, {
-    username: "username",
-    password: "password",
-    token: crypto.createHash("sha256").digest("base64")
+UserController.index = () => {
+  return User.index(function(data) {
+    return data;
   });
 };
 
-// logout handler
-User.logout = (data, callback) => {
-  callback(200, { status: "ok" });
+/* UserController.create = (data, callback) => {
+  User.create(data, function(result) {
+    callback({ data: data, message: "User was created", status: "OK" });
+  });
+}; */
+
+UserController.create = payload => {
+  return User.create(payload, function(data) {
+    return data;
+  });
 };
 
-User.create = (data, callback) => {
-  callback({ data: data, message: "User was created", status: "OK" });
-};
-
-User.show = (id, callback) => {
+UserController.show = (id, callback) => {
   callback({ id: id, message: "Users was shown", status: "OK" });
 };
 
-module.exports = User;
+// login handler
+UserController.login = callback => {
+  callback(200, JSON.stringify([{ message: "Bien!" }]));
+};
+
+// logout handler
+UserController.logout = (data, callback) => {
+  callback(200, { status: "ok" });
+};
+
+module.exports = UserController;

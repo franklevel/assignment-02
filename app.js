@@ -27,11 +27,6 @@ const app = http.createServer((req, res) => {
   req.on("end", () => {
     buffer += decoder.end();
 
-    /* const chosenHandler =
-      typeof router[route] !== "undefined"
-        ? router[route]
-        : handlers.notFound; */
-
     // Construct the data object to send to the handler
     const data = {
       route: route,
@@ -42,33 +37,35 @@ const app = http.createServer((req, res) => {
     };
     // Parse and format the payload
     const parsedBuffer = JSON.stringify(parse(buffer.toString()));
-    const chosenRoute =
-      typeof router.dispatch(route, method, parsedBuffer) !== "undefined"
-        ? router.dispatch(route, method, parsedBuffer)
-        : Generic.notFound;
 
-    chosenRoute(data, (statusCode, payload) => {
+    const chosenRoute = function(data, callback) {
+      callback(200, data.payload, router.dispatch(route, method, parsedBuffer));
+    };
+
+    const responseCallback = (statusCode, payload, responseData) => {
       // Use the status code called back by the handler, or default
       statusCode = typeof statusCode == "number" ? statusCode : 200;
       // Use the payload called back by the handler, or default to
-      payload = typeof payload == "object" ? payload : {};
+      payload = typeof payload === "object" ? payload : {};
       // Convert the payload to JSON format
-      var payloadString = JSON.stringify(payload);
+      let payloadString = JSON.stringify(payload);
       // Set JSON response
       res.setHeader("Content-Type", "application/json");
       // Set the head status
       res.writeHead(statusCode);
       // Send the response
-      res.end(payloadString);
+      res.end(responseData);
       // Log the request path
-      console.log("=>", method.toUpperCase(), statusCode, payloadString);
-    });
+      //console.log("=>", method.toUpperCase(), statusCode, payloadString);
+    };
+
+    chosenRoute(data, responseCallback);
   });
 });
 
 // not found handler
 Generic.notFound = (data, callback) => {
-  callback(404);
+  callback(404, data);
 };
 
 module.exports = app;
