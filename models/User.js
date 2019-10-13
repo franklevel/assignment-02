@@ -30,7 +30,15 @@ User.index = function() {
 }; */
 
 User.create = function(data) {
-  return _data.create(User.baseDir, "user", data);
+  return _data.create(User.baseDir, User.collection, data);
 };
+
+User.show = function(id) {
+  return _data.getById(User.baseDir, User.collection, id);
+};
+
+User.update = function(id, payload) {};
+
+User.delete = function(id) {};
 
 module.exports = User;

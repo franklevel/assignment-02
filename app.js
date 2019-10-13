@@ -11,7 +11,8 @@ const app = http.createServer((req, res) => {
   // Get the current path
   var path = parsedUrl.pathname;
   // Trim de path
-  var route = path.replace(/^\/+|\/+$/g, "");
+  var route = path;
+  //var route = path.replace(/^\/+|\/+$/g, "");
   // Get the query string a an object
   var queryString = parsedUrl.query;
   // Get the HTTP method

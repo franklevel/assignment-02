@@ -20,8 +20,8 @@ UserController.create = payload => {
   });
 };
 
-UserController.show = (id, callback) => {
-  callback({ id: id, message: "Users was shown", status: "OK" });
+UserController.show = id => {
+  return User.show(id);
 };
 
 // login handler
@@ -32,6 +32,14 @@ UserController.login = callback => {
 // logout handler
 UserController.logout = (data, callback) => {
   callback(200, { status: "ok" });
+};
+
+// User destroy
+UserController.destroy = id => {};
+
+// User Test Controller with params
+UserController.test = (param1, param2) => {
+  return { arg1: param1, arg2: param2 };
 };
 
 module.exports = UserController;
