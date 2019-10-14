@@ -5,29 +5,9 @@ const User = {};
 User.baseDir = "user";
 User.collection = "user";
 
-/* User.index = function(callback) {
-  _data.read(User.baseDir, User.collection, function(error, data) {
-    if (!error && data) {
-      callback(data);
-    } else {
-      callback(error);
-    }
-  });
-}; */
-
 User.index = function() {
   return _data.getAll(User.baseDir, User.collection);
 };
-
-/* User.create = function(data, callback) {
-  _data.create(User.baseDir, "user", data, function(err) {
-    if (!err) {
-      callback(data);
-    } else {
-      callback(err);
-    }
-  });
-}; */
 
 User.create = function(data) {
   return _data.create(User.baseDir, User.collection, data);
@@ -37,8 +17,12 @@ User.show = function(id) {
   return _data.getById(User.baseDir, User.collection, id);
 };
 
-User.update = function(id, payload) {};
+User.update = function(id, data) {
+  return _data.update(User.baseDir, User.collection, id, data);
+};
 
-User.delete = function(id) {};
+User.delete = function(id) {
+  return _data.delete(User.baseDir, User.collection, id);
+};
 
 module.exports = User;

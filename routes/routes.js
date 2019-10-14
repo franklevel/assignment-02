@@ -1,17 +1,22 @@
-const router = require("../lib/router");
+const UserController = require("../controllers/User");
 
-const routes = {};
-
-const UserController = {};
-UserController.get = id => {
-  return {
-    id: id,
-    name: "John",
-    email: "johndoe@gmail.com",
-    address: "First Street"
-  };
+const routes = {
+  // User routes
+  "/user": UserController.index,
+  "/user/create": UserController.create,
+  "/user/show/:id": UserController.show,
+  "/user/update/:id": UserController.update,
+  "/user/delete/:id": UserController.delete,
+  "/user/get/:userId/:contractId": UserController.test,
+  // Order routes
+  "/order": () => {
+    console.log("Listing orders");
+  },
+  "/order/show/:id": id => {
+    console.log(`Order ID ${id}`);
+  },
+  "/order/delete/": () => {}
+  // Auth routes
 };
 
-routes.get("/user", UserController, function(data) {
-  console.log(data);
-});
+module.exports = routes;
