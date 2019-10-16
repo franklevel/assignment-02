@@ -1,1 +1,23 @@
-[{"id":2,"description":"Capresse","size":"Large","currencySign":"$","pictureURL":"http://mypicture.com/pizza/capresse","price":12.55}]
+[
+	{
+		"id": "rporl65je8k2vig2c4dzol",
+		"name": "Pizza Margarita",
+		"description": "Corn, muzarella, onion, ham",
+		"price": "14.50",
+		"size": "Regular"
+	},
+	{
+		"id": "w41c2s3j2zc1kz0qjg5kav",
+		"name": "Fugazzeta",
+		"description": "Muzarella, a lot of onion",
+		"price": "12.50",
+		"size": "Regular"
+	},
+	{
+		"id": "yumwedhzrfio7pp9ajpuv9",
+		"name": "Napolitana",
+		"description": "Muzarella, tomatoes, ham",
+		"price": "15.50",
+		"size": "Regular"
+	}
+]

@@ -25,4 +25,8 @@ User.delete = function(id) {
   return _data.delete(User.baseDir, User.collection, id);
 };
 
+User.find = function(field, value) {
+  return _data.find(User.baseDir, User.collection, field, value);
+};
+
 module.exports = User;

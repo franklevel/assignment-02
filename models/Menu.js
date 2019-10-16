@@ -1,63 +1,27 @@
 const _data = require("../lib/data");
-
 const Menu = {};
 
 Menu.baseDir = "menu";
+Menu.collection = "menu";
 
-Menu.read = function(callback) {
-  _data.read(Menu.baseDir, "menu", function(error, data) {
-    if (!error && data) {
-      callback(JSON.parse(data));
-    } else {
-      console.log(error);
-    }
-  });
+Menu.index = function() {
+  return _data.getAll(Menu.baseDir, Menu.collection);
 };
 
-Menu.get = function(id, callback) {
-  Menu.read(function(data) {
-    if (data && data.length > 0) {
-      callback(
-        data.find(item => {
-          return item.id === parseInt(id);
-        })
-      );
-    } else {
-      console.log("The given ID is not exist");
-    }
-  });
+Menu.create = function(data) {
+  return _data.create(Menu.baseDir, Menu.collection, data);
 };
 
-Menu.create = function(data, callback) {
-  _data.create(Menu.baseDir, "menu", data, function(err) {
-    if (!err) {
-      callback(data);
-    } else {
-      callback(err);
-    }
-  });
+Menu.show = function(id) {
+  return _data.getById(Menu.baseDir, Menu.collection, id);
 };
 
-Menu.update = function(id, newData, callback) {
-  _data.read(Menu.baseDir, "menu", function(error, data) {
-    let parsedData = JSON.parse(data);
-    if (!error && parsedData.length > 0) {
-      data
-        .filter(item => {
-          return item.id !== parseInt(id);
-        })
-        .push(newData);
-      _data.create(Menu.baseDir, "menu", _newData, function(err) {
-        if (!err) {
-          callback(true);
-        } else {
-          callback(err);
-        }
-      });
-    }
-  });
+Menu.update = function(id, data) {
+  return _data.update(Menu.baseDir, Menu.collection, id, data);
 };
 
-Menu.destroy = function(id, callback) {};
+Menu.delete = function(id) {
+  return _data.delete(Menu.baseDir, Menu.collection, id);
+};
 
 module.exports = Menu;

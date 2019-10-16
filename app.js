@@ -3,6 +3,7 @@ const url = require("url");
 const { parse } = require("querystring");
 const StringDecoder = require("string_decoder").StringDecoder;
 const router = require("./lib/router");
+const Token = require("./models/Token");
 const Generic = {};
 
 const app = http.createServer((req, res) => {
@@ -40,7 +41,16 @@ const app = http.createServer((req, res) => {
     const parsedBuffer = JSON.stringify(parse(buffer.toString()));
 
     const chosenRoute = function(data, callback) {
+      /* const authHeader = req.headers.authorization;
+      const authToken = authHeader.split(" ");
+      const accessToken = authToken[1];
+      const storedToken = Token.verify(accessToken); */
+
+      //if (storedToken === "object" && storedToken.token === accessToken) {
       callback(200, data.payload, router.dispatch(route, method, parsedBuffer));
+      /* } else {
+        callback(401, null, null);
+      } */
     };
 
     const responseCallback = (statusCode, payload, responseData) => {
@@ -65,8 +75,8 @@ const app = http.createServer((req, res) => {
 });
 
 // not found handler
-Generic.notFound = (data, callback) => {
+/* Generic.notFound = (data, callback) => {
   callback(404, data);
-};
+}; */
 
 module.exports = app;

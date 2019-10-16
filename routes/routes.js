@@ -1,6 +1,11 @@
 const UserController = require("../controllers/User");
+const MenuController = require("../controllers/Menu");
+const AuthController = require("../controllers/Auth");
 
 const routes = {
+  "/": () => {
+    return JSON.stringify({ statudCode: 200, message: "OK" });
+  },
   // User routes
   "/user": UserController.index,
   "/user/create": UserController.create,
@@ -9,14 +14,14 @@ const routes = {
   "/user/delete/:id": UserController.delete,
   "/user/get/:userId/:contractId": UserController.test,
   // Order routes
-  "/order": () => {
-    console.log("Listing orders");
-  },
-  "/order/show/:id": id => {
-    console.log(`Order ID ${id}`);
-  },
-  "/order/delete/": () => {}
-  // Auth routes
+  "/order": () => {},
+  "/order/show/:id": id => {},
+  "/order/delete/": () => {},
+  // Menu routes
+  "/menu": MenuController.index,
+  "/menu/create": MenuController.create,
+  // Test Login
+  "/auth/get": AuthController.get
 };
 
 module.exports = routes;
