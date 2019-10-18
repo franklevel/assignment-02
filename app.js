@@ -1,7 +1,7 @@
 const http = require("http");
 const url = require("url");
 const { parse } = require("querystring");
-const StringDecoder = require("string_decoder").StringDecoder;
+const { StringDecoder } = require("string_decoder");
 const router = require("./lib/router");
 const Token = require("./models/Token");
 const Generic = {};
