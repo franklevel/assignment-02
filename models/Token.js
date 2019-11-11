@@ -8,11 +8,11 @@ Token.baseDir = "token";
 Token.collection = "token";
 
 Token.create = function(data) {
-  const payload = JSON.stringify({
+  /* const payload = JSON.stringify({
     sub: "1234567890",
     name: "John Doe",
     iat: 1516239022
-  });
+  }); */
 
   const sign = payload;
   const prevData = JSON.parse(data);
@@ -39,8 +39,30 @@ Token.delete = function(id) {
 };
 
 Token.verify = function(token) {
-  const tokenData = _data.find(Token.baseDir, Token.collection, "token", token);
-  return JSON.parse(tokenData);
+  const data = _data.find(Token.baseDir, Token.collection, "token", token);
+  let response = {};
+  if (data && typeof data === "object") {
+    if (data.expire < Date.now()) {
+      response = {
+        authorized: false,
+        message: "This token was expired",
+        code: 2
+      };
+    } else {
+      response = {
+        authorized: true,
+        message: "This token is valid",
+        code: 0
+      };
+    }
+  } else {
+    response = {
+      authorized: false,
+      message: "This token is not valid",
+      code: 1
+    };
+  }
+  return JSON.stringify(response);
 };
 
 module.exports = Token;

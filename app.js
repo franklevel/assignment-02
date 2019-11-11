@@ -2,10 +2,7 @@ const http = require("http");
 const router = require("./lib/router");
 
 const app = http.createServer((req, res) => {
-  /* const chosenRoute = function(data, callback) {
-      callback(200, data.payload, router.dispatch(route, method, parsedBuffer));
-    };*/
-
+  router.auth(req.headers["x-access-token"]);
   const responseCallback = (statusCode, payload, responseData) => {
     // Use the status code called back by the handler, or default
     statusCode = typeof statusCode == "number" ? statusCode : 200;
@@ -27,10 +24,5 @@ const app = http.createServer((req, res) => {
   router.dispatch(req, res, responseCallback);
   //});
 });
-
-// not found handler
-/* Generic.notFound = (data, callback) => {
-  callback(404, data);
-}; */
 
 module.exports = app;
